@@ -1,13 +1,28 @@
-import { useState } from 'react'
-import './App.css'
+import { Routes, Route } from 'react-router-dom';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { CallbackHandler } from './components/auth/CallbackHandler';
+import { Dashboard } from './components/Dashboard';
 
 function App() {
-
   return (
-    <>
-      <h1>Hello vite</h1>
-    </>
-  )
+    <Routes>
+      {/* Cognito callback route - handles redirect after login */}
+      <Route 
+        path="/callback" 
+        element={<CallbackHandler />} 
+      />
+      
+      {/* Main app route - protected, requires authentication */}
+      <Route 
+        path="/*" 
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } 
+      />
+    </Routes>
+  );
 }
 
-export default App
+export default App;

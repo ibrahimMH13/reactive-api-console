@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import chatReducer from './slices/chatSlice';
-import apiReducer from './slices/apiSlice';
-import uiReducer from './slices/uiSlice';
+//import apiReducer from './slices/apiSlice';
+//import uiReducer from './slices/uiSlice';
 
 export const store = configureStore({
   reducer: {
     chat: chatReducer,
-    api: apiReducer,
-    ui: uiReducer,
+ //   api: apiReducer,
+ //   ui: uiReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
