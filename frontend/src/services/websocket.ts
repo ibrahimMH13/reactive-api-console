@@ -13,7 +13,11 @@ class WebSocketService {
       this.token = accessToken;
       this.connectionState = 'connecting';
       
-      this.socket = io(import.meta.env.VITE_WS_URL, {
+      const wsUrl = import.meta.env.VITE_WS_URL;
+      console.log('🔌 Connecting to WebSocket:', wsUrl, 'with path: /api/v1/socket.io/');
+      
+      this.socket = io(wsUrl, {
+        path: '/api/v1/socket.io/',
         auth: {
           token: accessToken
         },
@@ -33,7 +37,7 @@ class WebSocketService {
         this.connectionState = 'disconnected';
       });
 
-      this.socket.on('connect_error', (error) => {
+      this.socket.on('connectError', (error) => {
         console.error('WebSocket connection error:', error);
         this.connectionState = 'error';
         if (this.reconnectAttempts < this.maxReconnectAttempts) {
@@ -78,19 +82,26 @@ class WebSocketService {
 
   // Event listeners
   onApiResponse(callback: (data: WebSocketEvents['apiResponse']) => void) {
-    this.socket?.on('apiResponse', callback);
+    if (this.socket) {
+      this.socket.on('apiResponse', callback);
+    }
   }
 
-  onCommandStatus(callback: (data: WebSocketEvents['chatCommand']) => void) {
-    this.socket?.on('chatCommand', callback);
+  onCommandStatus(callback: (data: WebSocketEvents['commandStatus']) => void) {
+    if (this.socket) {
+      this.socket.on('commandStatus', callback);
+    }
   }
 
   onTypingIndicator(callback: (data: WebSocketEvents['typingIndicator']) => void) {
-    this.socket?.on('typingIndicator', callback);
+    if (this.socket) {
+      this.socket.on('typingIndicator', callback);
+    }
   }
 
   // Remove listeners
   offApiResponse(callback?: (data: WebSocketEvents['apiResponse']) => void) {
+    console.log(callback);
     this.socket?.off('apiResponse', callback);
   }
 

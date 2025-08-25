@@ -11,13 +11,12 @@ import type { RootState } from '../store';
 export const useWebSocket = () => {
   const dispatch = useDispatch();
   const { getAccessToken, isAuthenticated } = useAuth();
-  console.log('websocket',getAccessToken,isAuthenticated);
   const connectionStatus = useSelector((state: RootState) => state.ui.connectionStatus);
   const listenersSetup = useRef(false);
 
   const setupEventListeners = useCallback(() => {
-    if (listenersSetup.current) return;
     
+    if (listenersSetup.current) return;
     // Set up event listeners
     websocketService.onApiResponse((data) => {
       console.log('API Response received:', data);
@@ -30,7 +29,7 @@ export const useWebSocket = () => {
         data: data.result,
         timestamp: data.timestamp,
       };
-      
+      console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@result------------>',result);
       dispatch(addApiResult({ api: data.api, result }));
       
       // Update chat message status
@@ -43,9 +42,7 @@ export const useWebSocket = () => {
       dispatch(setProcessing(false));
     });
 
-    websocketService.onCommandStatus((data) => {
-      console.log('📊 Command Status:', data);
-      
+    websocketService.onCommandStatus((data) => {      
       if (data?.status === 'processing') {
         dispatch(setProcessing(true));
       } else if (data?.status === 'error') {
@@ -61,7 +58,10 @@ export const useWebSocket = () => {
     listenersSetup.current = true;
   }, [dispatch]);
 
-  const connect = useCallback(async () => {
+  const connectRef = useRef<() => Promise<void>>(null);
+  const disconnectRef = useRef<() => void>(null);
+
+  connectRef.current = async () => {
     if (!isAuthenticated) return;
     
     const token = getAccessToken();
@@ -70,9 +70,9 @@ export const useWebSocket = () => {
     try {
       dispatch(setConnectionStatus('connecting'));
       
-      setupEventListeners();
-      
       const socket = await websocketService.connect(token);
+      
+      setupEventListeners();
       
       dispatch(setConnectionStatus('connected'));
       dispatch(addNotification('Connected to server'));
@@ -82,13 +82,16 @@ export const useWebSocket = () => {
       dispatch(setConnectionStatus('error'));
       dispatch(addNotification('Failed to connect to server'));
     }
-  }, [dispatch, setupEventListeners]);
+  };
 
-  const disconnect = useCallback(() => {
+  disconnectRef.current = () => {
     websocketService.disconnect();
     dispatch(setConnectionStatus('disconnected'));
     listenersSetup.current = false;
-  }, [dispatch]);
+  };
+
+  const connect = useCallback(() => connectRef.current?.(), []);
+  const disconnect = useCallback(() => disconnectRef.current?.(), []);
 
   const sendCommand = useCallback((command: string) => {
     if (!websocketService.isConnected()) {
@@ -125,7 +128,8 @@ export const useWebSocket = () => {
 
   // Auto-connect when authenticated
   useEffect(() => {
-    if (isAuthenticated && getAccessToken()) {
+    const token = getAccessToken();
+    if (isAuthenticated && token) {
       connect();
     } else if (!isAuthenticated) {
       disconnect();
@@ -135,7 +139,7 @@ export const useWebSocket = () => {
     return () => {
       disconnect();
     };
-  }, [isAuthenticated]);
+  }, [isAuthenticated, connect, disconnect]);
 
   return {
     connect,

@@ -1,8 +1,13 @@
+type ApiResponseData = {
+  status: 'success' | 'error' | 'processing';
+  [key: string]: unknown;
+}
+
 export type ApiResult = {
   id: string;
   api: string;
   command: string;
-  data: unknown;
+  data: ApiResponseData;
   timestamp: number;
 };
 

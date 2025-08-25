@@ -8,7 +8,7 @@ export const Dashboard: React.FC = () => {
   const { getUserInfo, signOut, getAccessToken } = useAuth();
   const user = getUserInfo();
   const { connectionStatus } = useSelector((state: RootState) => state.ui);
-  const { activeApis } = useSelector((state: RootState) => state.api);
+  const { activeApis , results } = useSelector((state: RootState) => state.api);
 
   const getConnectionColor = () => {
     switch (connectionStatus) {
@@ -84,6 +84,13 @@ export const Dashboard: React.FC = () => {
           {/* Chat Input Area */}
           <div className="lg:col-span-4">
            <ChatInput />
+              {Object.keys(results).length > 0 &&
+      Object.keys(results).map((key) => (
+        results[key].map((e, index) => (
+          <div key={`${key}-${index}`}>{e.e}</div>
+        ))
+      ))
+    }
           </div>
 
           {/* Sidebar - API Controls */}
