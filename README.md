@@ -601,19 +601,7 @@ DEBUG=socket.io:* npm run dev
 - **Input Validation** - Sanitized command processing
 - **Environment Secrets** - API keys in environment variables
 - **HTTPS Ready** - Production-ready SSL configuration
-- **Rate Limiting** - Protection against API abuse
-
-## 📄 License
-
-MIT License - see [LICENSE](./LICENSE) file for details.
-
-## 🔗 Resources
-
-- **Live Demo:** [https://your-demo-url.com](https://your-demo-url.com)
-- **API Documentation:** [Backend API Docs](./docs/api.md)
-- **Component Library:** [Frontend Components](./docs/components.md)
-- **Deployment Guide:** [Production Setup](./docs/deployment.md)
-- **Contributing Guide:** [Development Setup](./docs/contributing.md)
+- **Request Timeouts** - 5-second timeout for external API calls
 
 ## 🙋 Support
 
