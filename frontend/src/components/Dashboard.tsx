@@ -314,6 +314,13 @@ export const Dashboard: React.FC = () => {
             <GlobalSearch />
           </div>
 
+          {/* Search History */}
+          <div className="lg:col-span-4">
+            <div className="bg-white dark:bg-slate-800 rounded-lg border border-gray-300 dark:border-slate-600 overflow-hidden transition-colors duration-200">
+              <SearchHistoryCard globalFilter={globalFilter} />
+            </div>
+          </div>
+
           {/* Sidebar - API Controls */}
           <div className="lg:col-span-1">
             <div className="bg-white dark:bg-slate-800 rounded-lg border border-gray-300 dark:border-slate-600 overflow-hidden h-full transition-colors duration-200">

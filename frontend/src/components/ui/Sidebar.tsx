@@ -24,6 +24,8 @@ const Sidebar: React.FC = () => {
   const { activeApis, results } = useSelector((state: RootState) => state.api);
 
   const handleToggleApi = (apiId: string) => {
+    console.log(`🔘 User toggling API: ${apiId}`);
+    console.log(`🔘 Current active APIs:`, activeApis);
     dispatch(toggleApi(apiId));
   };
 

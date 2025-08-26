@@ -14,6 +14,7 @@ interface UserPreferences {
 export class PreferenceSyncService {
   private syncInProgress = false;
   private syncTimeout: NodeJS.Timeout | null = null;
+  private lastSavedState: string | null = null;
 
   // Load preferences from backend and apply to Redux store
   async loadPreferencesFromBackend(): Promise<boolean> {
@@ -26,12 +27,18 @@ export class PreferenceSyncService {
         return false;
       }
       
-      // Safely apply preferences to Redux store
-      if (preferences.theme) {
+      // Safely apply theme preference
+      const currentState = store.getState();
+      const currentTheme = currentState?.theme?.theme;
+      
+      if (preferences.theme && preferences.theme !== currentTheme) {
+        console.log(`🎨 Applying backend theme preference: ${preferences.theme} (was: ${currentTheme})`);
         store.dispatch(setTheme(preferences.theme));
+      } else {
+        console.log('✅ Theme preference unchanged, skipping update');
       }
       
-      // Apply active APIs with validation
+      // Apply active APIs with validation - only on initial load
       if (preferences.activeAPIs && typeof preferences.activeAPIs === 'object') {
         // Convert object format {weather: true, catfacts: false} to array format [weather]
         const activeApisArray = Object.entries(preferences.activeAPIs)
@@ -41,9 +48,18 @@ export class PreferenceSyncService {
         const currentState = store.getState();
         const currentActiveApis = currentState?.api?.activeApis || [];
         
-        // Only update if different to avoid unnecessary re-renders
-        if (JSON.stringify(currentActiveApis.sort()) !== JSON.stringify(activeApisArray.sort())) {
+        // Only update if significantly different (not just reordering)
+        const currentSet = new Set(currentActiveApis);
+        const newSet = new Set(activeApisArray);
+        const isDifferent = currentSet.size !== newSet.size || 
+          [...currentSet].some(api => !newSet.has(api));
+        
+        if (isDifferent) {
+          console.log('🔧 Applying backend API preferences:', activeApisArray);
+          console.log('🔧 Previous APIs:', currentActiveApis);
           store.dispatch(setActiveApis(activeApisArray));
+        } else {
+          console.log('✅ API preferences unchanged, skipping update');
         }
       }
       
@@ -182,26 +198,74 @@ export class PreferenceSyncService {
         return; // Don't proceed without authentication
       }
       
+      // Set up store subscription with improved safeguards
+      let isInitializing = true;
+      console.log('⏳ Setting up store subscription (INACTIVE for 10 seconds)');
+      const unsubscribe = store.subscribe(() => {
+        // Skip saving during initialization to avoid sync loops
+        if (isInitializing) {
+          return; // Silent during initialization
+        }
+        
+        // Only save if preferences actually changed
+        const state = store.getState();
+        const currentStateString = JSON.stringify({
+          theme: state.theme?.theme,
+          activeApis: state.api?.activeApis
+        });
+        
+        if (currentStateString !== this.lastSavedState) {
+          console.log('🔄 State changed, triggering debounced save');
+          this.debouncedSave(5000); // Save 5 seconds after last change (longer delay)
+          this.lastSavedState = currentStateString;
+        }
+      });
+      
       // Load preferences and history from backend (non-blocking)
-      Promise.allSettled([
-        this.loadPreferencesFromBackend(),
-        this.loadSearchHistory(),
-      ]).then(results => {
+      // But ONLY load from backend if localStorage doesn't have preferences
+      const hasLocalTheme = localStorage.getItem('theme');
+      const hasLocalApis = localStorage.getItem('activeApis');
+      
+      const loadTasks = [this.loadSearchHistory()];
+      
+      // Only load preferences from backend if no local preferences exist
+      if (!hasLocalTheme || !hasLocalApis) {
+        console.log('🔄 Loading preferences from backend (no local preferences found)');
+        loadTasks.push(this.loadPreferencesFromBackend());
+      } else {
+        console.log('✅ Using local preferences, skipping backend load');
+      }
+      
+      Promise.allSettled(loadTasks).then(results => {
         console.log('Backend sync results:', results);
+        
+        // Initialize lastSavedState with current state
+        const state = store.getState();
+        this.lastSavedState = JSON.stringify({
+          theme: state.theme?.theme,
+          activeApis: state.api?.activeApis
+        });
+        
+        // Only start listening for changes after initial load is complete
+        setTimeout(() => {
+          isInitializing = false;
+          console.log('✅ Preference sync is now ACTIVE - user changes will be saved to backend');
+        }, 10000); // Wait 10 seconds after backend load
       }).catch(error => {
         console.warn('Some backend operations failed (non-critical):', error);
-      });
-
-      // Set up store subscription to automatically save changes
-      let isInitializing = true;
-      const unsubscribe = store.subscribe(() => {
-        // Skip saving during initialization to avoid overriding user changes
-        if (isInitializing) {
-          setTimeout(() => { isInitializing = false; }, 1000);
-          return;
-        }
-        // Debounced save when Redux state changes
-        this.debouncedSave(3000); // Save 3 seconds after last change
+        
+        // Initialize lastSavedState even if backend load fails
+        const state = store.getState();
+        this.lastSavedState = JSON.stringify({
+          theme: state.theme?.theme,
+          activeApis: state.api?.activeApis
+        });
+        
+        // Still activate sync even if backend load fails
+        setTimeout(() => { 
+          isInitializing = false;
+          console.log('✅ Preference sync activated after backend error');
+        }, 10000);
       });
 
       console.log('Preference sync service initialized successfully');

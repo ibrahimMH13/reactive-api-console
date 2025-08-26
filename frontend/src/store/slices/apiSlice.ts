@@ -20,9 +20,29 @@ interface ApiState {
   lastCommands: Record<string, string>; 
 }
 
+// Get initial active APIs from localStorage or use defaults
+const getInitialActiveApis = (): string[] => {
+  if (typeof window !== 'undefined') {
+    const savedApis = localStorage.getItem('activeApis');
+    if (savedApis) {
+      try {
+        const parsed = JSON.parse(savedApis);
+        if (Array.isArray(parsed)) {
+          return parsed;
+        }
+      } catch (error) {
+        console.warn('Failed to parse activeApis from localStorage:', error);
+      }
+    }
+  }
+  
+  // Default active APIs
+  return ['weather', 'catfacts', 'github', 'chucknorris', 'bored', 'custom'];
+};
+
 const initialState: ApiState = {
   results: {},
-  activeApis: ['weather', 'catfacts', 'github', 'chucknorris', 'bored', 'custom'],
+  activeApis: getInitialActiveApis(),
   isProcessing: false,
   loadingStates: {},
   errors: {},
@@ -101,11 +121,21 @@ const apiSlice = createSlice({
       } else {
         state.activeApis.push(api);
       }
+      
+      // Save to localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('activeApis', JSON.stringify(state.activeApis));
+      }
     },
 
     // Set active APIs (for backend sync)
     setActiveApis: (state, action: PayloadAction<string[]>) => {
       state.activeApis = action.payload;
+      
+      // Save to localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('activeApis', JSON.stringify(state.activeApis));
+      }
     },
 
     // Set API results (for backend sync)
