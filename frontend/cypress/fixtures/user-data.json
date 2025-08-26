@@ -1,0 +1,22 @@
+{
+  "testUser": {
+    "id": "test-user-123",
+    "email": "test@example.com",
+    "name": "Test User",
+    "accessToken": "mock-access-token"
+  },
+  "mockOidcUser": {
+    "access_token": "mock-access-token",
+    "token_type": "Bearer",
+    "expires_at": 1724699999999,
+    "profile": {
+      "sub": "test-user-123",
+      "email": "test@example.com",
+      "name": "Test User"
+    }
+  },
+  "preferences": {
+    "theme": "dark",
+    "activeApis": ["weather", "catfacts", "github", "chucknorris", "bored", "custom"]
+  }
+}

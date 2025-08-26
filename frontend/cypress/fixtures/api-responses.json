@@ -1,0 +1,52 @@
+{
+  "weather": {
+    "location": "Berlin",
+    "temperature": 22,
+    "description": "Partly cloudy",
+    "humidity": 65,
+    "windSpeed": 12,
+    "timestamp": "2025-08-26T10:30:00Z"
+  },
+  "catfact": {
+    "fact": "Cats have five toes on their front paws, but only four toes on their back paws.",
+    "length": 73,
+    "timestamp": "2025-08-26T10:30:00Z"
+  },
+  "chucknorris": {
+    "joke": "Chuck Norris doesn't need garbage collection because he doesn't call .Dispose(), he calls .DropKick().",
+    "category": "dev",
+    "timestamp": "2025-08-26T10:30:00Z"
+  },
+  "activity": {
+    "activity": "Learn a new programming language",
+    "type": "education",
+    "participants": 1,
+    "price": 0,
+    "timestamp": "2025-08-26T10:30:00Z"
+  },
+  "github": {
+    "users": [
+      {
+        "login": "john",
+        "id": 123456,
+        "avatar_url": "https://avatars.githubusercontent.com/u/123456",
+        "html_url": "https://github.com/john"
+      }
+    ],
+    "total_count": 1,
+    "timestamp": "2025-08-26T10:30:00Z"
+  },
+  "preferences": {
+    "theme": "dark",
+    "activeAPIs": {
+      "weather": true,
+      "catfacts": true,
+      "github": true,
+      "chucknorris": true,
+      "bored": true,
+      "custom": true
+    },
+    "notifications": true,
+    "timestamp": "2025-08-26T10:30:00Z"
+  }
+}
