@@ -1,0 +1,72 @@
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from "@reduxjs/toolkit";
+
+type ThemeType = 'light' | 'dark';
+
+interface ThemeState {
+  theme: ThemeType;
+}
+
+// Check for saved theme in localStorage or system preference
+const getInitialTheme = (): ThemeType => {
+  if (typeof window !== 'undefined') {
+    const savedTheme = localStorage.getItem('theme') as ThemeType;
+    if (savedTheme) {
+      // Apply theme to document immediately
+      document.documentElement.classList.remove('light', 'dark');
+      document.documentElement.classList.add(savedTheme);
+      return savedTheme;
+    }
+    
+    // Check system preference
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = prefersDark ? 'dark' : 'light';
+    
+    // Apply theme to document immediately
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(initialTheme);
+    
+    return initialTheme;
+  }
+  
+  return 'dark'; // Default to dark
+};
+
+const initialState: ThemeState = {
+  theme: getInitialTheme(),
+};
+
+const themeSlice = createSlice({
+  name: 'theme',
+  initialState,
+  reducers: {
+    toggleTheme: (state) => {
+      state.theme = state.theme === 'light' ? 'dark' : 'light';
+      
+      // Save to localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('theme', state.theme);
+        
+        // Apply theme to document
+        document.documentElement.classList.remove('light', 'dark');
+        document.documentElement.classList.add(state.theme);
+      }
+    },
+    
+    setTheme: (state, action: PayloadAction<ThemeType>) => {
+      state.theme = action.payload;
+      
+      // Save to localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('theme', state.theme);
+        
+        // Apply theme to document
+        document.documentElement.classList.remove('light', 'dark');
+        document.documentElement.classList.add(state.theme);
+      }
+    },
+  },
+});
+
+export const { toggleTheme, setTheme } = themeSlice.actions;
+export default themeSlice.reducer;
