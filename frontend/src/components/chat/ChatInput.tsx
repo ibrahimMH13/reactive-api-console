@@ -32,7 +32,7 @@ export const ChatInput: React.FC = () => {
   };
 
   return (
-    <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg border border-slate-700 p-6 mb-6">
+    <div className="bg-gray-50 dark:bg-slate-800/50 backdrop-blur-sm rounded-lg border border-gray-200 dark:border-slate-700 p-6 mb-6 transition-colors duration-200">
       <form onSubmit={handleSubmit} className="flex items-center space-x-4">
         <div className="flex-1 relative">
           <input
@@ -42,7 +42,7 @@ export const ChatInput: React.FC = () => {
             onKeyPress={handleKeyPress}
             placeholder={getPlaceholder()}
             disabled={!isConnected || isProcessing}
-            className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-3 bg-white dark:bg-slate-700/50 border border-gray-300 dark:border-slate-600 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
           />
           
           {isTyping && (
@@ -87,7 +87,7 @@ export const ChatInput: React.FC = () => {
             key={example}
             onClick={() => setCommand(example)}
             disabled={isProcessing || !isConnected}
-            className="text-xs px-3 py-1 bg-slate-700/30 text-slate-400 rounded-full hover:bg-slate-700/50 hover:text-slate-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="text-xs px-3 py-1 bg-gray-200 dark:bg-slate-700/30 text-gray-600 dark:text-slate-400 rounded-full hover:bg-gray-300 dark:hover:bg-slate-700/50 hover:text-gray-800 dark:hover:text-slate-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {example}
           </button>

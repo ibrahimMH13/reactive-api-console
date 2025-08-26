@@ -18,20 +18,11 @@ export const useWebSocket = () => {
     
     if (listenersSetup.current) return;
     // Set up event listeners
+    // Note: API response handling moved to Dashboard component to avoid duplicates
+    // websocketService.onApiResponse is handled in Dashboard.tsx
+    
+    // We still need to handle command completion for chat messages
     websocketService.onApiResponse((data) => {
-      console.log('API Response received:', data);
-      
-      // Add result to appropriate API panel
-      const result: ApiResult = {
-        id: `${data.api}-${data.timestamp}`,
-        api: data.api,
-        command: data.command,
-        data: data.result,
-        timestamp: data.timestamp,
-      };
-      console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@result------------>',result);
-      dispatch(addApiResult({ api: data.api, result }));
-      
       // Update chat message status
       const messageId = `cmd-${data.timestamp}`;
       dispatch(updateMessageStatus({ 
