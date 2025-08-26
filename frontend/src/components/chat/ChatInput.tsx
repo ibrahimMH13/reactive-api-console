@@ -79,6 +79,7 @@ export const ChatInput: React.FC = () => {
         {[
           'get weather Berlin',
           'get cat fact', 
+          'chuck norris joke',
           'search github john',
           'get activity',
           'get my preferences'

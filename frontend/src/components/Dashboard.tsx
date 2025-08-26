@@ -217,7 +217,7 @@ export const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-slate-900 relative transition-colors duration-200">
+    <div className="min-h-screen bg-gray-100 dark:bg-slate-900 relative transition-colors duration-200" data-testid="dashboard">
       {/* Fixed background layer */}
       <div className="fixed inset-0 bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 -z-10 transition-colors duration-200"></div>
 
