@@ -619,9 +619,7 @@ MIT License - see [LICENSE](./LICENSE) file for details.
 
 For support and questions:
 
-- **GitHub Issues:** [Create an issue](https://github.com/your-repo/issues)
-- **Documentation:** [Full documentation](./docs/)
-- **Examples:** [Code examples](./examples/)
+- **GitHub Issues:** [Create an issue](https://github.com/ibrahimMH13/reactive-api-console/issues)
 
 ---
 
