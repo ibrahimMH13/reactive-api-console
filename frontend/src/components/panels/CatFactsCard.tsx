@@ -49,7 +49,7 @@ export const CatFactsCard: React.FC<CatFactsCardProps> = ({ results, apiName }) 
   return (
     <div className="bg-gray-50 dark:bg-slate-800/50 backdrop-blur-sm rounded-lg border border-gray-200 dark:border-slate-700 p-6 h-full transition-colors duration-200">
       {/* Header with error/loading indicators */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
           <svg className="w-5 h-5 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

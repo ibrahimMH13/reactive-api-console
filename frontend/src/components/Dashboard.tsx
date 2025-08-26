@@ -12,6 +12,7 @@ import { GitHubCard } from "./panels/GitHubCard";
 import CustomBackendCard from "./panels/CustomBackendCard";
 import { BoredCard } from "./panels/BoredCard";
 import { ChuckNorrisCard } from "./panels/ChuckNorrisCard";
+import { SearchHistoryCard } from "./panels/SearchHistoryCard";
 import { GlobalSearch } from "./ui/GlobalSearch";
 import { 
   addApiResult, 
@@ -23,10 +24,11 @@ import {
 } from "../store/slices/apiSlice";
 import { toggleTheme } from "../store/slices/themeSlice";
 import { useTheme } from "../hooks/useTheme";
+import { preferenceSyncService } from "../services/preferenceSync";
 
 export const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
-  const { getUserInfo, signOut } = useAuth();
+  const { getUserInfo, signOut, getAccessToken, isAuthenticated } = useAuth();
   const user = getUserInfo();
   
   const { connectionStatus } = useSelector((state: RootState) => state.ui);
@@ -128,6 +130,22 @@ export const Dashboard: React.FC = () => {
       websocketService.offCommandStatus(handleCommandStatus);
     };
   }, [dispatch]);
+
+  // Initialize preference sync service
+  useEffect(() => {
+    if (isAuthenticated && getAccessToken()) {
+      const token = getAccessToken();
+      if (token) {
+        console.log('Initializing preference sync with token...');
+        // Use setTimeout to ensure Redux store is fully initialized
+        setTimeout(() => {
+          preferenceSyncService.initialize(token).catch(error => {
+            console.warn('Failed to initialize preference sync (non-critical):', error);
+          });
+        }, 100); // Small delay to let Redux fully initialize
+      }
+    }
+  }, [isAuthenticated, getAccessToken]);
 
   // Filter function for global search
   const applyGlobalFilter = (results: any[], searchFields: string[]) => {
@@ -242,6 +260,17 @@ export const Dashboard: React.FC = () => {
                 Welcome, {user?.name || user?.email}
               </div>
               
+              {/* Debug: Manual sync test button */}
+              <button
+                onClick={() => {
+                  console.log('Manual sync test clicked');
+                  preferenceSyncService.savePreferencesToBackend();
+                }}
+                className="px-2 py-1 text-xs bg-yellow-500 text-black rounded mr-2"
+              >
+                Test Sync
+              </button>
+
               {/* Theme Toggle Button */}
               <button
                 onClick={() => dispatch(toggleTheme())}
@@ -308,7 +337,7 @@ export const Dashboard: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {/* Weather Panel */}
               {activeApis.includes('weather') && (
                 <div className="bg-white dark:bg-slate-800 rounded-lg border border-gray-300 dark:border-slate-600 overflow-hidden transition-colors duration-200">

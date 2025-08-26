@@ -8,9 +8,9 @@ const router = Router();
 router.use(verifyToken);
 
 // User Preferences Management
-router.get('/preferences', (req, res) => {
+router.get('/preferences', async (req, res) => {
   try {
-    const preferences = repositoryManager.getUserPreferences(req.user!.id);
+    const preferences = await repositoryManager.getUserPreferences(req.user!.id);
     res.json({ success: true, data: preferences });
   } catch (error:any) {
     console.error('Get preferences error:', error);
@@ -21,12 +21,12 @@ router.get('/preferences', (req, res) => {
   }
 });
 
-router.post('/preferences', (req, res) => {
+router.post('/preferences', async (req, res) => {
   try {
     const { theme, activeAPIs, notifications } = req.body;
     
     // Validate input
-    if (!theme || !Array.isArray(activeAPIs) || typeof notifications !== 'boolean') {
+    if (!theme || (typeof activeAPIs !== 'object' || activeAPIs === null) || typeof notifications !== 'boolean') {
       return res.status(400).json({ 
         success: false, 
         error: 'Invalid preferences format' 
@@ -35,7 +35,7 @@ router.post('/preferences', (req, res) => {
     
     const preferences = { theme, activeAPIs, notifications };
     
-    repositoryManager.saveUserPreferences(req.user!.id, preferences);
+    await repositoryManager.saveUserPreferences(req.user!.id, preferences);
     
     res.json({ 
       success: true, 

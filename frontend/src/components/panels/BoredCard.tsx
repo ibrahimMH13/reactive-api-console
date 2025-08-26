@@ -71,7 +71,7 @@ export const BoredCard: React.FC<BoredCardProps> = ({ results, apiName }) => {
   return (
     <div className="bg-gray-50 dark:bg-slate-800/50 backdrop-blur-sm rounded-lg border border-gray-200 dark:border-slate-700 p-6 h-full transition-colors duration-200">
       {/* Header with error/loading indicators */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
           <span className="text-purple-400 text-xl mr-2">🎯</span>
           Bored API

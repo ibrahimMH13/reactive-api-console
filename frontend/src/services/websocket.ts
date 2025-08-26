@@ -200,7 +200,34 @@ class WebSocketService {
       timestamp: Date.now()
     });
 
+    // Save search entry to backend (async, don't wait for it)
+    this.saveSearchEntryAsync(command).catch(error => {
+      console.warn('Failed to save search entry:', error);
+    });
+
     return true;
+  }
+
+  private async saveSearchEntryAsync(command: string): Promise<void> {
+    try {
+      // Import dynamically to avoid circular dependencies
+      const { preferenceSyncService } = await import('./preferenceSync');
+      
+      // Parse command to extract API type - simple parsing
+      const lowerCommand = command.toLowerCase();
+      let api = 'custom'; // default
+      
+      if (lowerCommand.includes('weather') || lowerCommand.includes('get weather')) api = 'weather';
+      else if (lowerCommand.includes('cat') || lowerCommand.includes('fact')) api = 'catfacts';
+      else if (lowerCommand.includes('github') || lowerCommand.includes('search github')) api = 'github';
+      else if (lowerCommand.includes('chuck') || lowerCommand.includes('norris') || lowerCommand.includes('joke')) api = 'chucknorris';
+      else if (lowerCommand.includes('bored') || lowerCommand.includes('activity')) api = 'bored';
+      
+      await preferenceSyncService.saveSearchEntry(command, api);
+    } catch (error) {
+      // Silent fail - this is not critical to the main functionality
+      console.debug('Search entry save failed:', error);
+    }
   }
 
   // Internal event system for consistency

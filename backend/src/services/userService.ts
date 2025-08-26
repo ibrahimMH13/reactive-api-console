@@ -2,7 +2,7 @@ import { DatabaseService } from './database';
 
 interface UserPreferences {
   theme: string;
-  activeAPIs: string[];
+  activeAPIs: Record<string, boolean>; // {"weather": true, "catfacts": false}
   notifications: boolean;
 }
 
@@ -19,7 +19,14 @@ export class UserService extends DatabaseService {
     if (!row) {
       return {
         theme: 'dark',
-        activeAPIs: ['weather', 'catfacts', 'github', 'custom'],
+        activeAPIs: {
+          'weather': true,
+          'catfacts': true, 
+          'github': true,
+          'chucknorris': true,
+          'bored': true,
+          'custom': true
+        },
         notifications: true
       };
     }

@@ -12,21 +12,12 @@ const getInitialTheme = (): ThemeType => {
   if (typeof window !== 'undefined') {
     const savedTheme = localStorage.getItem('theme') as ThemeType;
     if (savedTheme) {
-      // Apply theme to document immediately
-      document.documentElement.classList.remove('light', 'dark');
-      document.documentElement.classList.add(savedTheme);
       return savedTheme;
     }
     
     // Check system preference
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = prefersDark ? 'dark' : 'light';
-    
-    // Apply theme to document immediately
-    document.documentElement.classList.remove('light', 'dark');
-    document.documentElement.classList.add(initialTheme);
-    
-    return initialTheme;
+    return prefersDark ? 'dark' : 'light';
   }
   
   return 'dark'; // Default to dark
@@ -46,10 +37,6 @@ const themeSlice = createSlice({
       // Save to localStorage
       if (typeof window !== 'undefined') {
         localStorage.setItem('theme', state.theme);
-        
-        // Apply theme to document
-        document.documentElement.classList.remove('light', 'dark');
-        document.documentElement.classList.add(state.theme);
       }
     },
     
@@ -59,10 +46,6 @@ const themeSlice = createSlice({
       // Save to localStorage
       if (typeof window !== 'undefined') {
         localStorage.setItem('theme', state.theme);
-        
-        // Apply theme to document
-        document.documentElement.classList.remove('light', 'dark');
-        document.documentElement.classList.add(state.theme);
       }
     },
   },

@@ -49,7 +49,7 @@ export const ChuckNorrisCard: React.FC<ChuckNorrisCardProps> = ({ results, apiNa
   return (
     <div className="bg-gray-50 dark:bg-slate-800/50 backdrop-blur-sm rounded-lg border border-gray-200 dark:border-slate-700 p-6 h-full transition-colors duration-200">
       {/* Header with error/loading indicators */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
           <span className="text-yellow-400 text-xl mr-2">⚡</span>
           Chuck Norris API
@@ -162,7 +162,7 @@ export const ChuckNorrisCard: React.FC<ChuckNorrisCardProps> = ({ results, apiNa
                 const joke = apiResult.data;
                 return (
                   <div key={apiResult.id} className="bg-white dark:bg-slate-700/30 rounded-lg p-4 border border-gray-200 dark:border-slate-600/30 hover:bg-gray-50 dark:hover:bg-slate-700/40 transition-colors">
-                    <div className="flex justify-between items-start mb-3">
+                    <div className=" items-start mb-3">
                       <span className="text-xs bg-yellow-600/20 text-yellow-400 px-2 py-1 rounded">
                         {joke.category}
                       </span>

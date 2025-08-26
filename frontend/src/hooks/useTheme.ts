@@ -8,17 +8,12 @@ export const useTheme = () => {
   const { theme } = useSelector((state: RootState) => state.theme);
 
   useEffect(() => {
-    // Apply theme to document on mount and changes
+    // Apply theme to document on theme changes
+    console.log('Applying theme:', theme);
     document.documentElement.classList.remove('light', 'dark');
     document.documentElement.classList.add(theme);
+    console.log('DOM classes after applying theme:', Array.from(document.documentElement.classList));
   }, [theme]);
-
-  // Initialize theme on first load
-  useEffect(() => {
-    // This ensures the initial theme is applied correctly
-    document.documentElement.classList.remove('light', 'dark');
-    document.documentElement.classList.add(theme);
-  }, []);
 
   return {
     theme,

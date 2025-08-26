@@ -10,14 +10,14 @@ interface ApiError {
 }
 
 interface ApiState {
-  results: Record<string, ApiResult[]>; // { weather: [...], github: [...] }
+  results: Record<string, ApiResult[]>; 
   activeApis: string[];
   isProcessing: boolean;
-  loadingStates: Record<string, boolean>; // { weather: true, github: false }
-  errors: Record<string, ApiError | null>; // { weather: null, github: { message: "...", timestamp: ... } }
-  filters: Record<string, string>; // { weather: 'search term', github: 'user' }
+  loadingStates: Record<string, boolean>;
+  errors: Record<string, ApiError | null>; 
+  filters: Record<string, string>; 
   globalFilter: string;
-  lastCommands: Record<string, string>; // Track last command for each API
+  lastCommands: Record<string, string>; 
 }
 
 const initialState: ApiState = {
@@ -102,6 +102,17 @@ const apiSlice = createSlice({
         state.activeApis.push(api);
       }
     },
+
+    // Set active APIs (for backend sync)
+    setActiveApis: (state, action: PayloadAction<string[]>) => {
+      state.activeApis = action.payload;
+    },
+
+    // Set API results (for backend sync)
+    setApiResults: (state, action: PayloadAction<{ api: string; results: ApiResult[] }>) => {
+      const { api, results } = action.payload;
+      state.results[api] = results;
+    },
         
     setApiFilter: (state, action: PayloadAction<{ api: string; filter: string }>) => {
       state.filters[action.payload.api] = action.payload.filter;
@@ -141,7 +152,9 @@ const apiSlice = createSlice({
 
 export const { 
   addApiResult, 
-  toggleApi, 
+  toggleApi,
+  setActiveApis,
+  setApiResults, 
   setApiFilter, 
   setGlobalFilter, 
   setProcessing,
@@ -155,24 +168,24 @@ export const {
 
 // Selectors
 export const selectApiResults = (state: { api: ApiState }, apiName: string) => 
-  state.api.results[apiName] || [];
+  state.api?.results?.[apiName] || [];
 
 export const selectApiError = (state: { api: ApiState }, apiName: string) => 
-  state.api.errors[apiName];
+  state.api?.errors?.[apiName];
 
 export const selectApiLoading = (state: { api: ApiState }, apiName: string) => 
-  state.api.loadingStates[apiName] || false;
+  state.api?.loadingStates?.[apiName] || false;
 
 export const selectApiLastCommand = (state: { api: ApiState }, apiName: string) => 
-  state.api.lastCommands[apiName];
+  state.api?.lastCommands?.[apiName];
 
 export const selectAllApiErrors = (state: { api: ApiState }) => 
-  state.api.errors;
+  state.api?.errors || {};
 
 export const selectHasAnyErrors = (state: { api: ApiState }) => 
-  Object.values(state.api.errors).some(error => error !== null);
+  Object.values(state.api?.errors || {}).some(error => error !== null);
 
 export const selectActiveApisWithErrors = (state: { api: ApiState }) => 
-  state.api.activeApis.filter(api => state.api.errors[api]);
+  (state.api?.activeApis || []).filter(api => state.api?.errors?.[api]);
 
 export default apiSlice.reducer;
