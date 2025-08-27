@@ -104,7 +104,7 @@ class WebSocketService {
     if (!this.socket) return;
 
     // API Response handler
-    this.socket.on('apiResponse', (data: ApiResponseData) => {
+    this.socket.on('api_response', (data: ApiResponseData) => {
       console.log('API Response received:', data);
       this.emit('apiResponse', {
         ...data,
@@ -113,7 +113,7 @@ class WebSocketService {
     });
 
     // Command Status handler
-    this.socket.on('commandStatus', (data: CommandStatusData) => {
+    this.socket.on('command_status', (data: CommandStatusData) => {
       console.log('Command Status:', data);
       
       // Emit as commandStatus for consistency with backend
@@ -134,12 +134,12 @@ class WebSocketService {
     });
 
     // Typing Indicator handler
-    this.socket.on('typingIndicator', (data: { isProcessing: boolean }) => {
+    this.socket.on('typing_indicator', (data: { isProcessing: boolean }) => {
       this.emit('typingIndicator', data);
     });
 
     // Handle authentication errors
-    this.socket.on('commandStatus', (data) => {
+    this.socket.on('command_status', (data) => {
       if (data.status === 'error' && data.error?.includes('Authentication')) {
         console.error('Authentication failed via WebSocket');
         this.connectionState = 'error';
@@ -195,7 +195,7 @@ class WebSocketService {
     }
 
     console.log('Sending command:', command);
-    this.socket.emit('chatCommand', {
+    this.socket.emit('chat_command', {
       command,
       timestamp: Date.now()
     });

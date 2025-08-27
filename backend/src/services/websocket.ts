@@ -37,7 +37,7 @@ export class WebSocketService {
         });
 
         // Handle chat commands
-        socket.on('chatCommand', async (data: WebSocketEvents['chatCommand']) => {
+        socket.on('chat_command', async (data: WebSocketEvents['chat_command']) => {
           await this.handleChatCommand(socket, data);
         });
 
@@ -63,17 +63,17 @@ export class WebSocketService {
     });
   }
 
-  private async handleChatCommand(socket: Socket, data: WebSocketEvents['chatCommand']) {
+  private async handleChatCommand(socket: Socket, data: WebSocketEvents['chat_command']) {
     const user = socket.data.user;
     console.log(`Command from ${user.email}:`, data.command);
 
     try {
       // Send processing status
-      socket.emit('commandStatus', {
+      socket.emit('command_status', {
         status: 'processing'
       });
 
-      socket.emit('typingIndicator', {
+      socket.emit('typing_indicator', {
         isProcessing: true
       });
 
@@ -93,27 +93,27 @@ export class WebSocketService {
       }
 
       // Send successful response
-      const response: WebSocketEvents['apiResponse'] = {
+      const response: WebSocketEvents['api_response'] = {
         command: data.command,
         result: result,
         api: parsedCommand.api,
         timestamp: Date.now()
       };
 
-      socket.emit('apiResponse', response);
-      socket.emit('commandStatus', {
+      socket.emit('api_response', response);
+      socket.emit('command_status', {
         status: 'success'
       });
 
     } catch (error: any) {
       console.error('Command execution failed:', error.message);
       
-      socket.emit('commandStatus', {
+      socket.emit('command_status', {
         status: 'error',
         error: error.message
       });
     } finally {
-      socket.emit('typingIndicator', {
+      socket.emit('typing_indicator', {
         isProcessing: false
       });
     }

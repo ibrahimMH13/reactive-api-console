@@ -33,14 +33,14 @@ export type User = {
   
   export type WebSocketEvents  ={
     // Client to Server
-    chatCommand: ChatCommand;
+    chat_command: ChatCommand;
     // Server to Client
-    apiResponse: ApiResponse;
-    commandStatus: {
+    api_response: ApiResponse;
+    command_status: {
       status: 'processing' | 'success' | 'error';
       error?: string;
     };
-    typingIndicator: {
+    typing_indicator: {
       isProcessing: boolean;
     };
   }

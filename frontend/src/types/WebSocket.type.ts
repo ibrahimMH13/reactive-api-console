@@ -1,19 +1,19 @@
 export type WebSocketEvents = {
-  chatCommand: {
+  chat_command: {
     command: string;
     timestamp: number;
   };
-  apiResponse: {
+  api_response: {
     command: string;
     result: unknown;
     api: string;
     timestamp: number;
   };
-  commandStatus: {
+  command_status: {
     status: "processing" | "success" | "error";
     error?: string;
   };
-  typingIndicator: {
+  typing_indicator: {
     isProcessing: boolean;
   };
 };
