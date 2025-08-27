@@ -43,7 +43,7 @@ class WebSocketService {
     return new Promise((resolve, reject) => {
       this.token = accessToken;
       this.connectionState = 'connecting';
-      this.emit('connectionStatus', { status: 'connecting' });
+      this.emit('connection_status', { status: 'connecting' });
       
       const wsUrl = import.meta.env.VITE_WS_URL;
       console.log('Connecting to WebSocket:', wsUrl);
@@ -64,14 +64,14 @@ class WebSocketService {
         console.log('Connected to WebSocket server');
         this.reconnectAttempts = 0;
         this.connectionState = 'connected';
-        this.emit('connectionStatus', { status: 'connected' });
+        this.emit('connection_status', { status: 'connected' });
         resolve(this.socket!);
       });
 
       this.socket.on('disconnect', (reason) => {
         console.log('Disconnected from WebSocket server:', reason);
         this.connectionState = 'disconnected';
-        this.emit('connectionStatus', { status: 'disconnected', reason });
+        this.emit('connection_status', { status: 'disconnected', reason });
         
         // Auto-reconnect for certain disconnect reasons
         if (reason === 'io server disconnect' || reason === 'transport close') {
@@ -82,7 +82,7 @@ class WebSocketService {
       this.socket.on('connect_error', (error) => {
         console.error('WebSocket connection error:', error);
         this.connectionState = 'error';
-        this.emit('connectionStatus', { status: 'error', error: error.message });
+        this.emit('connection_status', { status: 'error', error: error.message });
         
         if (this.reconnectAttempts < this.maxReconnectAttempts) {
           this.handleReconnect();
@@ -106,7 +106,7 @@ class WebSocketService {
     // API Response handler
     this.socket.on('api_response', (data: ApiResponseData) => {
       console.log('API Response received:', data);
-      this.emit('apiResponse', {
+      this.emit('api_response', {
         ...data,
         timestamp: data.timestamp || Date.now()
       });
@@ -117,14 +117,14 @@ class WebSocketService {
       console.log('Command Status:', data);
       
       // Emit as commandStatus for consistency with backend
-      this.emit('commandStatus', {
+      this.emit('command_status', {
         ...data,
         timestamp: data.timestamp || Date.now()
       });
 
       // Also emit specific error if status is error
       if (data.status === 'error') {
-        this.emit('apiError', {
+        this.emit('api_error', {
           api: data.api,
           error: data.error || 'Command failed',
           command: data.command,
@@ -135,7 +135,7 @@ class WebSocketService {
 
     // Typing Indicator handler
     this.socket.on('typing_indicator', (data: { isProcessing: boolean }) => {
-      this.emit('typingIndicator', data);
+      this.emit('typing_indicator', data);
     });
 
     // Handle authentication errors
@@ -143,7 +143,7 @@ class WebSocketService {
       if (data.status === 'error' && data.error?.includes('Authentication')) {
         console.error('Authentication failed via WebSocket');
         this.connectionState = 'error';
-        this.emit('connectionStatus', { status: 'error', error: 'Authentication failed' });
+        this.emit('connection_status', { status: 'error', error: 'Authentication failed' });
         this.disconnect();
       }
     });
@@ -153,7 +153,7 @@ class WebSocketService {
     if (this.reconnectAttempts < this.maxReconnectAttempts) {
       this.reconnectAttempts++;
       this.connectionState = 'connecting';
-      this.emit('connectionStatus', { status: 'connecting' });
+      this.emit('connection_status', { status: 'connecting' });
       
       console.log(`Reconnect attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts}`);
       
@@ -179,13 +179,13 @@ class WebSocketService {
     this.connectionState = 'disconnected';
     this.token = null;
     this.reconnectAttempts = 0;
-    this.emit('connectionStatus', { status: 'disconnected' });
+    this.emit('connection_status', { status: 'disconnected' });
   }
 
   sendCommand(command: string): boolean {
     if (!this.socket?.connected) {
       console.error('WebSocket not connected');
-      this.emit('apiError', {
+      this.emit('api_error', {
         api: 'system',
         error: 'WebSocket not connected. Please check your connection.',
         command,
@@ -265,43 +265,43 @@ class WebSocketService {
 
   // Public event subscription methods (consistent with backend camelCase)
   onApiResponse(handler: (data: ApiResponseData) => void) {
-    this.subscribe('apiResponse', handler);
+    this.subscribe('api_response', handler);
   }
 
   offApiResponse(handler?: (data: ApiResponseData) => void) {
-    this.unsubscribe('apiResponse', handler);
+    this.unsubscribe('api_response', handler);
   }
 
   onApiError(handler: (data: ApiErrorData) => void) {
-    this.subscribe('apiError', handler);
+    this.subscribe('api_error', handler);
   }
 
   offApiError(handler?: (data: ApiErrorData) => void) {
-    this.unsubscribe('apiError', handler);
+    this.unsubscribe('api_error', handler);
   }
 
   onCommandStatus(handler: (data: CommandStatusData) => void) {
-    this.subscribe('commandStatus', handler);
+    this.subscribe('command_status', handler);
   }
 
   offCommandStatus(handler?: (data: CommandStatusData) => void) {
-    this.unsubscribe('commandStatus', handler);
+    this.unsubscribe('command_status', handler);
   }
 
   onConnectionStatus(handler: (data: ConnectionStatusData) => void) {
-    this.subscribe('connectionStatus', handler);
+    this.subscribe('connection_status', handler);
   }
 
   offConnectionStatus(handler?: (data: ConnectionStatusData) => void) {
-    this.unsubscribe('connectionStatus', handler);
+    this.unsubscribe('connection_status', handler);
   }
 
   onTypingIndicator(handler: (data: { isProcessing: boolean }) => void) {
-    this.subscribe('typingIndicator', handler);
+    this.subscribe('typing_indicator', handler);
   }
 
   offTypingIndicator(handler?: (data: { isProcessing: boolean }) => void) {
-    this.unsubscribe('typingIndicator', handler);
+    this.unsubscribe('typing_indicator', handler);
   }
 
   // Utility methods

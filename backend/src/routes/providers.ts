@@ -1,8 +1,11 @@
 import { Router } from 'express';
+import { verifyToken } from '../auth/jwt';
 import { providerService } from '../providers/index';
 
 const router = Router();
 
+// Apply auth middleware to all provider routes
+router.use(verifyToken);
 // Weather API Testing
 router.get('/weather', async (req, res) => {
   try {

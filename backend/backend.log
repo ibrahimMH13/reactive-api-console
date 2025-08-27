@@ -312,3 +312,93 @@ Parsed command: {
 }
 Provider Request: GET /search
 Provider Response: /search - 200
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `ts-node src/app.ts`[39m
+/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^
+TSError: ⨯ Unable to compile TypeScript:
+src/routes/providers.ts(5,12): error TS2304: Cannot find name 'verifyToken'.
+
+    at createTSError (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1617:30)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Object.require.extensions.<computed> [as .ts] (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) {
+  diagnosticCodes: [ 2304 ]
+}
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `ts-node src/app.ts`[39m
+/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^
+TSError: ⨯ Unable to compile TypeScript:
+src/routes/providers.ts(5,12): error TS2304: Cannot find name 'ver'.
+
+    at createTSError (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1617:30)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Object.require.extensions.<computed> [as .ts] (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) {
+  diagnosticCodes: [ 2304 ]
+}
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `ts-node src/app.ts`[39m
+/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^
+TSError: ⨯ Unable to compile TypeScript:
+src/routes/providers.ts(6,12): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type '(jwt: string, jwksUri: string, options: { issuer: string | string[] | null; audience: string | string[] | null; scope?: string | string[] | undefined; graceSeconds?: number | undefined; customJwtCheck?: ((props: { ...; }) => void | Promise<...>) | undefined; includeRawJwtInErrors?: boolean | undefined; }, jwkFetcher...' is not assignable to parameter of type 'PathParams'.
+
+    at createTSError (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1617:30)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Object.require.extensions.<computed> [as .ts] (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:1022:12)
+    at Module.require (node:internal/modules/cjs/loader:1231:19) {
+  diagnosticCodes: [ 2769 ]
+}
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `ts-node src/app.ts`[39m
+[dotenv@17.2.1] injecting env (10) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+PORT: 3000
+NODE_ENV: development
+CORS_ORIGIN: http://localhost:5173
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1897:16)
+    at listenInCluster (node:net:1945:12)
+    at Server.listen (node:net:2037:7)
+    at Object.<anonymous> (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/src/app.ts:55:8)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module.m._compile (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1618:23)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Object.require.extensions.<computed> [as .ts] (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:1022:12) {
+  code: 'EADDRINUSE',
+  errno: -48,
+  syscall: 'listen',
+  address: '::',
+  port: 3000
+}
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
