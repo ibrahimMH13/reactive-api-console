@@ -483,3 +483,14 @@ CORS_ORIGIN: http://localhost:5173
 🔌 WebSocket server ready
 New connection attempt: UCiXDfSEwFEjLmMcAAAB
 User authenticated: a4d8d438-0021-706c-10f3-020549740454 UCiXDfSEwFEjLmMcAAAB
+User disconnected: a4d8d438-0021-706c-10f3-020549740454 UCiXDfSEwFEjLmMcAAAB
+New connection attempt: vqIgaZ8jw5-l_6ojAAAE
+User authenticated: a4d8d438-0021-706c-10f3-020549740454 vqIgaZ8jw5-l_6ojAAAE
+Command from a4d8d438-0021-706c-10f3-020549740454: get my preferences
+Parsed command: {
+  api: 'custom',
+  action: 'preferences',
+  params: [],
+  originalCommand: 'get my preferences'
+}
+User disconnected: a4d8d438-0021-706c-10f3-020549740454 vqIgaZ8jw5-l_6ojAAAE
