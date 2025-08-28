@@ -402,3 +402,84 @@ Error: listen EADDRINUSE: address already in use :::3000
   port: 3000
 }
 [31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `ts-node src/app.ts`[39m
+[dotenv@17.2.1] injecting env (10) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+PORT: 3000
+NODE_ENV: development
+CORS_ORIGIN: http://localhost:5173
+🚀 Server running on http://localhost:3000
+📊 Health check: http://localhost:3000/health
+🔌 WebSocket server ready
+New connection attempt: ywEqQgsP8zyrJCypAAAB
+User authenticated: a4d8d438-0021-706c-10f3-020549740454 ywEqQgsP8zyrJCypAAAB
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `ts-node src/app.ts`[39m
+[dotenv@17.2.1] injecting env (10) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+PORT: 3000
+NODE_ENV: development
+CORS_ORIGIN: http://localhost:5173
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1897:16)
+    at listenInCluster (node:net:1945:12)
+    at Server.listen (node:net:2037:7)
+    at Object.<anonymous> (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/src/app.ts:55:8)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module.m._compile (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1618:23)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Object.require.extensions.<computed> [as .ts] (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:1022:12) {
+  code: 'EADDRINUSE',
+  errno: -48,
+  syscall: 'listen',
+  address: '::',
+  port: 3000
+}
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `ts-node src/app.ts`[39m
+[dotenv@17.2.1] injecting env (10) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+PORT: 3000
+NODE_ENV: development
+CORS_ORIGIN: http://localhost:5173
+🚀 Server running on http://localhost:3000
+📊 Health check: http://localhost:3000/health
+🔌 WebSocket server ready
+New connection attempt: eVOwExnliKAMM8IIAAAB
+User authenticated: a4d8d438-0021-706c-10f3-020549740454 eVOwExnliKAMM8IIAAAB
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `ts-node src/app.ts`[39m
+[dotenv@17.2.1] injecting env (10) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+PORT: 3000
+NODE_ENV: development
+CORS_ORIGIN: http://localhost:5173
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1897:16)
+    at listenInCluster (node:net:1945:12)
+    at Server.listen (node:net:2037:7)
+    at Object.<anonymous> (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/src/app.ts:55:8)
+    at Module._compile (node:internal/modules/cjs/loader:1369:14)
+    at Module.m._compile (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1618:23)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1427:10)
+    at Object.require.extensions.<computed> [as .ts] (/Users/ibrahimmusabeh/Desktop/ISM/reactive-api-console/backend/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1206:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:1022:12) {
+  code: 'EADDRINUSE',
+  errno: -48,
+  syscall: 'listen',
+  address: '::',
+  port: 3000
+}
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `ts-node src/app.ts`[39m
+[dotenv@17.2.1] injecting env (10) from .env -- tip: 📡 auto-backup env with Radar: https://dotenvx.com/radar
+PORT: 3000
+NODE_ENV: development
+CORS_ORIGIN: http://localhost:5173
+🚀 Server running on http://localhost:3000
+📊 Health check: http://localhost:3000/health
+🔌 WebSocket server ready
+New connection attempt: UCiXDfSEwFEjLmMcAAAB
+User authenticated: a4d8d438-0021-706c-10f3-020549740454 UCiXDfSEwFEjLmMcAAAB

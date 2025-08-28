@@ -19,7 +19,14 @@ describe('RepositoryManager', () => {
       
       expect(preferences).toEqual({
         theme: 'dark',
-        activeAPIs: ['weather', 'catfacts', 'github', 'custom'],
+        activeAPIs: {
+          weather: true,
+          catfacts: true,
+          github: true,
+          chucknorris: true,
+          bored: true,
+          custom: true
+        },
         notifications: true
       });
     });
@@ -27,7 +34,7 @@ describe('RepositoryManager', () => {
     it('should save and retrieve user preferences', async () => {
       const newPreferences: UserPreferences = {
         theme: 'light',
-        activeAPIs: ['weather', 'github'],
+        activeAPIs: { weather: true, github: true, catfacts: false, chucknorris: false, bored: false, custom: false },
         notifications: false
       };
 
@@ -40,13 +47,13 @@ describe('RepositoryManager', () => {
     it('should update existing preferences', async () => {
       const initial: UserPreferences = {
         theme: 'dark',
-        activeAPIs: ['weather'],
+        activeAPIs: { weather: true, catfacts: false, github: false, chucknorris: false, bored: false, custom: false },
         notifications: true
       };
 
       const updated: UserPreferences = {
         theme: 'light',
-        activeAPIs: ['weather', 'github'],
+        activeAPIs: { weather: true, github: true, catfacts: false, chucknorris: false, bored: false, custom: false },
         notifications: false
       };
 

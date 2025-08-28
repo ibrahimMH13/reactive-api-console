@@ -36,7 +36,11 @@ const themeSlice = createSlice({
       
       // Save to localStorage
       if (typeof window !== 'undefined') {
-        localStorage.setItem('theme', state.theme);
+        try {
+          localStorage.setItem('theme', state.theme);
+        } catch (error) {
+          console.warn('Failed to save theme to localStorage:', error);
+        }
       }
     },
     
@@ -45,7 +49,11 @@ const themeSlice = createSlice({
       
       // Save to localStorage
       if (typeof window !== 'undefined') {
-        localStorage.setItem('theme', state.theme);
+        try {
+          localStorage.setItem('theme', state.theme);
+        } catch (error) {
+          console.warn('Failed to save theme to localStorage:', error);
+        }
       }
     },
   },

@@ -9,6 +9,24 @@ module.exports = {
   transform: {
     '^.+\\.(ts|tsx)$': ['ts-jest', {
       useESM: true,
+      diagnostics: {
+        ignoreCodes: [1343]
+      },
+      astTransformers: {
+        before: [
+          {
+            path: 'node_modules/ts-jest-mock-import-meta',
+            options: {
+              metaObjectReplacement: {
+                env: {
+                  VITE_BACKEND_URL: 'http://localhost:3001',
+                  VITE_WS_URL: 'http://localhost:3001'
+                }
+              }
+            }
+          }
+        ]
+      },
       tsconfig: {
         esModuleInterop: true,
         allowSyntheticDefaultImports: true,

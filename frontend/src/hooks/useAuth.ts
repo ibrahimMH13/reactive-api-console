@@ -1,13 +1,13 @@
 import { useAuth as useOidcAuth } from 'react-oidc-context';
-
+import { getCognitoClientId, getCognitoLogoutUri, getCognitoDomain } from '../utils/env';
 
 export const useAuth = () => {
   const auth = useOidcAuth();
 
   const signOut = () => {
-    const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID;
-    const logoutUri = import.meta.env.VITE_COGNITO_LOGOUT_URI;
-    const cognitoDomain = import.meta.env.VITE_COGNITO_DOMAIN;
+    const clientId = getCognitoClientId();
+    const logoutUri = getCognitoLogoutUri();
+    const cognitoDomain = getCognitoDomain();
     
     // First remove user from OIDC context
     auth.removeUser();

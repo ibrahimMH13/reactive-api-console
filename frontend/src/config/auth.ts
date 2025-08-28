@@ -1,16 +1,26 @@
+import { 
+  getCognitoAuthority, 
+  getCognitoClientId, 
+  getCognitoRedirectUri, 
+  getCognitoLogoutUri, 
+  getCognitoScope,
+  getBackendUrl,
+  getWsUrl 
+} from '../utils/env';
+
 export const cognitoConfig = {
-    authority: import.meta.env.VITE_COGNITO_AUTHORITY,
-    client_id: import.meta.env.VITE_COGNITO_CLIENT_ID,
-    redirect_uri: import.meta.env.VITE_COGNITO_REDIRECT_URI,
-    post_logout_redirect_uri: import.meta.env.VITE_COGNITO_LOGOUT_URI,
+    authority: getCognitoAuthority(),
+    client_id: getCognitoClientId(),
+    redirect_uri: getCognitoRedirectUri(),
+    post_logout_redirect_uri: getCognitoLogoutUri(),
     response_type: "code",
-    scope: import.meta.env.VITE_COGNITO_SCOPE,
+    scope: getCognitoScope(),
     automaticSilentRenew: true,
     includeIdTokenInSilentRenew: true,
   };
   
   export const backendConfig = {
-    baseURL: import.meta.env.VITE_BACKEND_URL,
-    wsURL: import.meta.env.VITE_WS_URL,
+    baseURL: getBackendUrl(),
+    wsURL: getWsUrl(),
   };
   

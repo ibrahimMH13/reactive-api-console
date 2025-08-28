@@ -1,5 +1,6 @@
 // services/websocket.ts
 import { io, Socket } from 'socket.io-client';
+import { getWsUrl } from '../utils/env';
 
 export interface ApiResponseData {
   api: string;
@@ -45,7 +46,7 @@ class WebSocketService {
       this.connectionState = 'connecting';
       this.emit('connection_status', { status: 'connecting' });
       
-      const wsUrl = import.meta.env.VITE_WS_URL;
+      const wsUrl = getWsUrl();
       console.log('Connecting to WebSocket:', wsUrl);
       
       this.socket = io(wsUrl, {

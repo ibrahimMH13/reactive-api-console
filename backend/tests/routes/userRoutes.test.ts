@@ -33,7 +33,7 @@ describe('User Routes', () => {
     it('should get user preferences', async () => {
       const mockPreferences = {
         theme: 'dark',
-        activeAPIs: ['weather', 'github'],
+        activeAPIs: { weather: true, github: true, catfacts: false, chucknorris: false, bored: false, custom: false },
         notifications: true
       };
 
@@ -82,7 +82,7 @@ describe('User Routes', () => {
     it('should save user preferences', async () => {
       const newPreferences = {
         theme: 'light',
-        activeAPIs: ['weather', 'catfacts'],
+        activeAPIs: { weather: true, catfacts: true, github: false, chucknorris: false, bored: false, custom: false },
         notifications: false
       };
 
@@ -103,7 +103,7 @@ describe('User Routes', () => {
     it('should validate preferences format', async () => {
       const invalidPreferences = {
         theme: 'dark',
-        activeAPIs: 'not-an-array', // Should be array
+        activeAPIs: 'not-an-object', // Should be object
         notifications: true
       };
 

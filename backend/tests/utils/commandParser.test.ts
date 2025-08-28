@@ -148,7 +148,7 @@ describe('CommandParser', () => {
     });
 
     it('should execute custom preferences command', async () => {
-      const mockPreferences = { theme: 'dark', activeAPIs: ['weather'], notifications: true };
+      const mockPreferences = { theme: 'dark', activeAPIs: { weather: true, catfacts: false, github: false, chucknorris: false, bored: false, custom: false }, notifications: true };
       
       // Mock repositoryManager
       jest.spyOn(repositoryManager, 'getUserPreferences').mockResolvedValue(mockPreferences);

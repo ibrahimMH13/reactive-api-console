@@ -1,5 +1,7 @@
 // API service for backend communication
-const API_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/v1`;
+import { getBackendUrl } from '../utils/env';
+
+const API_BASE_URL = `${getBackendUrl()}/api/v1`;
 
 export interface UserPreferences {
   theme: 'light' | 'dark';

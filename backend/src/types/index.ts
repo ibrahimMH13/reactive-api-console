@@ -7,7 +7,7 @@ export type User = {
   
   export type UserPreferences = {
     theme: 'light' | 'dark';
-    activeAPIs: string[];
+    activeAPIs: Record<string, boolean>;
     notifications: boolean;
   }
   

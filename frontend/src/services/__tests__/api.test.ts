@@ -1,19 +1,4 @@
-// Mock import.meta.env before importing api service
-const mockEnv = {
-  VITE_BACKEND_URL: 'http://localhost:3001'
-};
-
-jest.mock('../../config/env', () => mockEnv);
-
-// Mock the API_BASE_URL constant
-jest.mock('../api', () => {
-  const originalModule = jest.requireActual('../api');
-  return {
-    ...originalModule,
-    // Mock the constant that uses import.meta.env
-  };
-});
-
+// import.meta.env is already mocked in setupTests.ts
 import { apiService } from '../api';
 
 // Mock fetch

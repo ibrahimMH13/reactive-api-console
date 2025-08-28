@@ -1,5 +1,8 @@
 import '@testing-library/jest-dom';
 
+// Mock the env utility
+jest.mock('./utils/env');
+
 // Mock localStorage
 const localStorageMock = {
   getItem: jest.fn(),

@@ -35,7 +35,7 @@ describe('apiSlice', () => {
     it('should have correct initial state with default APIs', () => {
       localStorageMock.getItem.mockReturnValue(null);
       
-      const state = store.getState().api;
+      const state = (store.getState() as any).api;
       
       expect(state.results).toEqual({});
       expect(state.activeApis).toEqual(['weather', 'catfacts', 'github', 'chucknorris', 'bored', 'custom']);
@@ -48,16 +48,21 @@ describe('apiSlice', () => {
     });
 
     it('should load active APIs from localStorage if available', () => {
+      // Mock localStorage before importing the slice
       localStorageMock.getItem.mockReturnValue(JSON.stringify(['weather', 'github']));
+      
+      // Clear module cache and reimport the slice to pick up the mocked localStorage
+      jest.resetModules();
+      const apiSliceReloaded = require('../apiSlice').default;
       
       // Create new store to test initialization
       const newStore = configureStore({
         reducer: {
-          api: apiSlice,
+          api: apiSliceReloaded,
         },
       });
       
-      const state = newStore.getState().api;
+      const state = (newStore.getState() as any).api;
       expect(state.activeApis).toEqual(['weather', 'github']);
     });
   });
@@ -66,7 +71,7 @@ describe('apiSlice', () => {
     it('should disable an active API', () => {
       store.dispatch(toggleApi('weather'));
       
-      const state = store.getState().api;
+      const state = (store.getState() as any).api;
       expect(state.activeApis).not.toContain('weather');
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'activeApis', 
@@ -80,7 +85,7 @@ describe('apiSlice', () => {
       // Then enable it back
       store.dispatch(toggleApi('weather'));
       
-      const state = store.getState().api;
+      const state = (store.getState() as any).api;
       expect(state.activeApis).toContain('weather');
     });
 
@@ -92,7 +97,7 @@ describe('apiSlice', () => {
       // Disable the API
       store.dispatch(toggleApi('weather'));
       
-      const state = store.getState().api;
+      const state = (store.getState() as any).api;
       expect(state.loadingStates.weather).toBe(false);
       expect(state.errors.weather).toBe(null);
     });
@@ -103,7 +108,7 @@ describe('apiSlice', () => {
       const newApis = ['weather', 'github'];
       store.dispatch(setActiveApis(newApis));
       
-      const state = store.getState().api;
+      const state = (store.getState() as any).api;
       expect(state.activeApis).toEqual(newApis);
       expect(localStorageMock.setItem).toHaveBeenCalledWith('activeApis', JSON.stringify(newApis));
     });
@@ -115,7 +120,7 @@ describe('apiSlice', () => {
         id: 'test-1',
         api: 'weather',
         command: 'get weather Berlin',
-        data: { temperature: '20°C', city: 'Berlin' },
+        data: { status: 'success' as const, temperature: '20°C', city: 'Berlin' },
         timestamp: Date.now()
       };
 
@@ -125,7 +130,7 @@ describe('apiSlice', () => {
         command: 'get weather Berlin'
       }));
 
-      const state = store.getState().api;
+      const state = (store.getState() as any).api;
       expect(state.results.weather).toHaveLength(1);
       expect(state.results.weather[0]).toEqual(mockResult);
       expect(state.loadingStates.weather).toBe(false);
@@ -140,7 +145,7 @@ describe('apiSlice', () => {
           id: `test-${i}`,
           api: 'weather',
           command: `command ${i}`,
-          data: { temperature: `${i}°C` },
+          data: { status: 'success' as const, temperature: `${i}°C` },
           timestamp: Date.now() + i
         };
 
@@ -150,7 +155,7 @@ describe('apiSlice', () => {
         }));
       }
 
-      const state = store.getState().api;
+      const state = (store.getState() as any).api;
       expect(state.results.weather).toHaveLength(50);
       expect(state.results.weather[0].id).toBe('test-50'); // Most recent first
     });
@@ -160,7 +165,7 @@ describe('apiSlice', () => {
     it('should set API loading state', () => {
       store.dispatch(setApiLoading({ api: 'weather', isLoading: true, command: 'test command' }));
       
-      const state = store.getState().api;
+      const state = (store.getState() as any).api;
       expect(state.loadingStates.weather).toBe(true);
       expect(state.lastCommands.weather).toBe('test command');
       expect(state.errors.weather).toBe(null);
@@ -171,7 +176,7 @@ describe('apiSlice', () => {
     it('should set API error state', () => {
       store.dispatch(setApiError({ api: 'weather', error: 'Network error', command: 'test command' }));
       
-      const state = store.getState().api;
+      const state = (store.getState() as any).api;
       expect(state.errors.weather).toEqual({
         message: 'Network error',
         timestamp: expect.any(Number),
@@ -186,7 +191,7 @@ describe('apiSlice', () => {
       // Then clear it
       store.dispatch(clearApiError('weather'));
       
-      const state = store.getState().api;
+      const state = (store.getState() as any).api;
       expect(state.errors.weather).toBe(null);
     });
   });
@@ -195,14 +200,14 @@ describe('apiSlice', () => {
     it('should set API filter', () => {
       store.dispatch(setApiFilter({ api: 'weather', filter: 'Berlin' }));
       
-      const state = store.getState().api;
+      const state = (store.getState() as any).api;
       expect(state.filters.weather).toBe('Berlin');
     });
 
     it('should set global filter', () => {
       store.dispatch(setGlobalFilter('test search'));
       
-      const state = store.getState().api;
+      const state = (store.getState() as any).api;
       expect(state.globalFilter).toBe('test search');
     });
   });
@@ -214,7 +219,7 @@ describe('apiSlice', () => {
         id: 'test-1',
         api: 'weather',
         command: 'test',
-        data: {},
+        data: { status: 'success' as const },
         timestamp: Date.now()
       };
       
@@ -225,7 +230,7 @@ describe('apiSlice', () => {
       // Clear results
       store.dispatch(clearApiResults('weather'));
       
-      const state = store.getState().api;
+      const state = (store.getState() as any).api;
       expect(state.results.weather).toBeUndefined();
       expect(state.errors.weather).toBe(null);
       expect(state.loadingStates.weather).toBe(false);
